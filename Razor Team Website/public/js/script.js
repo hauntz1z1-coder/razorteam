@@ -256,6 +256,240 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// ===== Discord Webhook Configuration =====
+const DISCORD_WEBHOOKS = {
+    orders: 'https://canary.discord.com/api/webhooks/1482221033653141524/_2KjX-bT8QJVgt2NTXe6h5sDgWuGa8XYB8hU1SxGqvnJRG2r6FCsS2ud27gbeKzF_hu9',
+    recruitment: 'https://canary.discord.com/api/webhooks/1482221206630301726/syVRCjsEWw-5BWdDbTwn6rf1j2gLHrR9dOfo_tg86tWOvTpkLu33njSmsNcnjxNwywjn'
+};
+
+// ===== Send to Discord Webhook =====
+async function sendToDiscord(webhookUrl, embed) {
+    try {
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                embeds: [embed]
+            })
+        });
+        
+        if (!response.ok) {
+            console.error('Erro ao enviar para Discord:', response.status);
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error('Erro ao enviar para Discord:', error);
+        return false;
+    }
+}
+
+// ===== Handle Checkout Form Submission =====
+async function handleCheckout(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const submitBtn = document.getElementById('checkout-btn');
+    const originalBtnText = submitBtn.textContent;
+    
+    // Disable button and show loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processando...';
+    
+    // Get form data
+    const customerData = {
+        name: document.getElementById('checkout-name').value,
+        email: document.getElementById('checkout-email').value,
+        whatsapp: document.getElementById('checkout-whatsapp').value,
+        cpf: document.getElementById('checkout-cpf').value
+    };
+    
+    // Get cart data
+    const cartItems = JSON.parse(localStorage.getItem('razorCart')) || [];
+    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shipping = subtotal > 200 ? 0 : 25;
+    const total = subtotal + shipping;
+    
+    // Generate order ID
+    const orderId = 'RZR-' + Date.now().toString(36).toUpperCase();
+    
+    // Create items list for Discord
+    const itemsList = cartItems.map(item => 
+        `- ${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`
+    ).join('\n');
+    
+    // Create Discord embed for order
+    const orderEmbed = {
+        title: '🛒 Novo Pedido Recebido!',
+        color: 0x44ff00, // Green color
+        fields: [
+            {
+                name: '📋 Pedido',
+                value: `\`${orderId}\``,
+                inline: true
+            },
+            {
+                name: '💰 Total',
+                value: `R$ ${total.toFixed(2)}`,
+                inline: true
+            },
+            {
+                name: '🚚 Frete',
+                value: shipping === 0 ? 'Gratis' : `R$ ${shipping.toFixed(2)}`,
+                inline: true
+            },
+            {
+                name: '👤 Cliente',
+                value: customerData.name,
+                inline: true
+            },
+            {
+                name: '📧 E-mail',
+                value: customerData.email,
+                inline: true
+            },
+            {
+                name: '📱 WhatsApp',
+                value: customerData.whatsapp,
+                inline: true
+            },
+            {
+                name: '🪪 CPF',
+                value: customerData.cpf,
+                inline: true
+            },
+            {
+                name: '📦 Itens do Pedido',
+                value: itemsList || 'Nenhum item',
+                inline: false
+            }
+        ],
+        footer: {
+            text: 'RAZOR Shop - Sistema de Pedidos'
+        },
+        timestamp: new Date().toISOString()
+    };
+    
+    // Send to Discord
+    const success = await sendToDiscord(DISCORD_WEBHOOKS.orders, orderEmbed);
+    
+    if (success) {
+        // Save order to localStorage for confirmation page
+        const orderData = {
+            orderId: orderId,
+            customer: customerData,
+            items: cartItems,
+            subtotal: subtotal,
+            shipping: shipping,
+            total: total,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('razorLastOrder', JSON.stringify(orderData));
+        
+        // Clear cart
+        localStorage.removeItem('razorCart');
+        cart = [];
+        updateCartCount();
+        
+        // Redirect to confirmation page
+        window.location.href = 'order-confirmation.html';
+    } else {
+        showNotification('Erro ao processar pedido. Tente novamente.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+    }
+}
+
+// ===== Handle Join Form Submission =====
+async function handleJoinSubmit(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
+    
+    // Disable button and show loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    
+    // Get form data
+    const formData = {
+        nickname: document.getElementById('nickname').value,
+        discord: document.getElementById('discord').value,
+        age: document.getElementById('age').value,
+        region: document.getElementById('region').value,
+        tracker: document.getElementById('tracker').value,
+        experience: document.getElementById('experience').value || 'Nao informado',
+        motivation: document.getElementById('motivation').value
+    };
+    
+    // Get region display name
+    const regionSelect = document.getElementById('region');
+    const regionName = regionSelect.options[regionSelect.selectedIndex].text;
+    
+    // Create Discord embed for recruitment
+    const recruitEmbed = {
+        title: '📝 Nova Inscricao de Recrutamento!',
+        color: 0x44ff00, // Green color
+        fields: [
+            {
+                name: '🎮 Nickname',
+                value: formData.nickname,
+                inline: true
+            },
+            {
+                name: '💬 Discord',
+                value: formData.discord,
+                inline: true
+            },
+            {
+                name: '🎂 Idade',
+                value: `${formData.age} anos`,
+                inline: true
+            },
+            {
+                name: '📍 Regiao',
+                value: regionName,
+                inline: true
+            },
+            {
+                name: '📊 Fortnite Tracker',
+                value: `[Ver Perfil](${formData.tracker})`,
+                inline: false
+            },
+            {
+                name: '🏆 Experiencia Competitiva',
+                value: formData.experience,
+                inline: false
+            },
+            {
+                name: '💭 Motivacao',
+                value: formData.motivation,
+                inline: false
+            }
+        ],
+        footer: {
+            text: 'RAZOR Team - Sistema de Recrutamento'
+        },
+        timestamp: new Date().toISOString()
+    };
+    
+    // Send to Discord
+    const success = await sendToDiscord(DISCORD_WEBHOOKS.recruitment, recruitEmbed);
+    
+    if (success) {
+        showNotification('Inscricao enviada com sucesso! Entraremos em contato pelo Discord.');
+        form.reset();
+    } else {
+        showNotification('Erro ao enviar inscricao. Tente novamente.');
+    }
+    
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnText;
+}
+
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();

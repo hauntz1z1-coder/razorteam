@@ -96,8 +96,32 @@
                     <div id="summary-content">
                         <!-- Summary will be rendered by JavaScript -->
                     </div>
-                    <a href="https://checkout.stripe.com" target="_blank" class="btn btn-primary">Finalizar Compra</a>
-                    <a href="shop.html" class="btn btn-secondary" style="margin-top: 10px;">Continuar Comprando</a>
+                    
+                    <!-- Checkout Form -->
+                    <div class="checkout-form-wrapper">
+                        <h4 style="color: var(--color-white); margin: 30px 0 20px; font-family: var(--font-display); font-size: 18px; border-top: 1px solid var(--color-gray); padding-top: 30px;">Dados para Entrega</h4>
+                        <form id="checkout-form" onsubmit="handleCheckout(event)">
+                            <div class="form-group">
+                                <label for="checkout-name">Nome Completo *</label>
+                                <input type="text" id="checkout-name" name="name" required placeholder="Seu nome completo">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-email">E-mail *</label>
+                                <input type="email" id="checkout-email" name="email" required placeholder="seu@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-whatsapp">WhatsApp *</label>
+                                <input type="tel" id="checkout-whatsapp" name="whatsapp" required placeholder="(00) 00000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-cpf">CPF *</label>
+                                <input type="text" id="checkout-cpf" name="cpf" required placeholder="000.000.000-00">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;" id="checkout-btn">Finalizar Compra</button>
+                        </form>
+                    </div>
+                    
+                    <a href="shop.html" class="btn btn-secondary" style="margin-top: 15px; width: 100%;">Continuar Comprando</a>
                 </div>
             </div>
         </div>
@@ -161,5 +185,49 @@
     </footer>
 
     <script src="js/script.js"></script>
+    
+    <style>
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-text);
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--color-gray);
+            border: 1px solid var(--color-light-gray);
+            border-radius: 4px;
+            color: var(--color-white);
+            font-family: var(--font-primary);
+            font-size: 14px;
+            transition: all var(--transition-fast);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-green);
+            background: var(--color-dark-gray);
+        }
+
+        .form-group input::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        #checkout-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
 </body>
 </html>
