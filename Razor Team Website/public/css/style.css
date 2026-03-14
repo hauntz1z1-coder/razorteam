@@ -1826,3 +1826,546 @@ button {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* ===== Hall of Fame Section - Esports Professional ===== */
+.hall-of-fame {
+    padding: 120px 0;
+    background: linear-gradient(180deg, var(--color-black) 0%, #0d0d0d 50%, var(--color-black) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hall-of-fame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(255, 185, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(255, 185, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hall-of-fame .section-header {
+    position: relative;
+    z-index: 1;
+}
+
+.hof-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #ffb900;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, rgba(255, 185, 0, 0.15) 0%, transparent 100%);
+    border-left: 3px solid #ffb900;
+}
+
+.hof-tag svg {
+    color: #ffb900;
+}
+
+.hof-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 7vw, 60px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #ffb900 0%, #ffd700 50%, #ffb900 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 60px rgba(255, 185, 0, 0.3);
+}
+
+.hof-subtitle {
+    font-size: 17px;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Hall of Fame Cards Grid */
+.hof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hall of Fame Player Card */
+.hof-card {
+    background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hof-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, #ffb900 0%, #ffd700 25%, #ffb900 50%, #ffd700 75%, #ffb900 100%);
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+.hof-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(180deg, rgba(255, 185, 0, 0.1) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.hof-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(255, 185, 0, 0.2);
+}
+
+.hof-card:hover::before {
+    opacity: 1;
+}
+
+/* Card Header with Avatar */
+.hof-card-header {
+    position: relative;
+    padding: 30px 30px 20px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    z-index: 1;
+}
+
+.hof-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-gray) 0%, var(--color-dark-gray) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    border: 3px solid #ffb900;
+    box-shadow: 0 0 20px rgba(255, 185, 0, 0.3);
+}
+
+.hof-avatar::before {
+    content: '';
+    width: 50px;
+    height: 50px;
+    background: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/222-GKtyNvT90SRGeOg1lwQUpSvoTmtwaH.png') center/contain no-repeat;
+    opacity: 0.4;
+}
+
+.hof-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.hof-rank-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #ffb900 0%, #ffd700 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(255, 185, 0, 0.4);
+}
+
+.hof-rank-badge svg {
+    color: #000;
+    width: 18px;
+    height: 18px;
+}
+
+/* Player Info */
+.hof-player-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.hof-player-name {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffb900;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.hof-player-role {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 10px;
+}
+
+.hof-player-reason {
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Stats Bar */
+.hof-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: rgba(255, 185, 0, 0.05);
+    border-top: 1px solid rgba(255, 185, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 185, 0, 0.2);
+}
+
+.hof-stat {
+    padding: 18px 15px;
+    text-align: center;
+    border-right: 1px solid rgba(255, 185, 0, 0.1);
+}
+
+.hof-stat:last-child {
+    border-right: none;
+}
+
+.hof-stat-value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffb900;
+    margin-bottom: 3px;
+}
+
+.hof-stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+/* Social Links */
+.hof-socials {
+    display: flex;
+    gap: 10px;
+    padding: 20px 30px;
+    flex-wrap: wrap;
+}
+
+.hof-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--color-gray);
+    border: 1px solid var(--color-light-gray);
+    border-radius: 4px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.hof-social-link:hover {
+    background: #ffb900;
+    color: #000;
+    border-color: #ffb900;
+}
+
+.hof-social-link.twitch:hover {
+    background: #9146FF;
+    border-color: #9146FF;
+    color: #fff;
+}
+
+.hof-social-link.youtube:hover {
+    background: #FF0000;
+    border-color: #FF0000;
+    color: #fff;
+}
+
+.hof-social-link.kick:hover {
+    background: #53FC18;
+    border-color: #53FC18;
+    color: #000;
+}
+
+.hof-social-link.discord:hover {
+    background: #5865F2;
+    border-color: #5865F2;
+    color: #fff;
+}
+
+.hof-social-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Expand Button */
+.hof-expand-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, rgba(255, 185, 0, 0.1) 0%, rgba(255, 185, 0, 0.05) 100%);
+    border: none;
+    border-top: 1px solid rgba(255, 185, 0, 0.2);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffb900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hof-expand-btn:hover {
+    background: linear-gradient(90deg, rgba(255, 185, 0, 0.2) 0%, rgba(255, 185, 0, 0.1) 100%);
+}
+
+.hof-expand-btn svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.hof-card.expanded .hof-expand-btn svg {
+    transform: rotate(180deg);
+}
+
+/* Expanded Content */
+.hof-expanded-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hof-card.expanded .hof-expanded-content {
+    max-height: 500px;
+}
+
+.hof-expanded-inner {
+    padding: 25px 30px;
+    border-top: 1px solid rgba(255, 185, 0, 0.2);
+}
+
+/* Player Bio */
+.hof-bio {
+    margin-bottom: 25px;
+}
+
+.hof-bio-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffb900;
+    margin-bottom: 12px;
+}
+
+.hof-bio-text {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+/* Clip Embed */
+.hof-clip-container {
+    margin-bottom: 20px;
+}
+
+.hof-clip-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffb900;
+    margin-bottom: 15px;
+}
+
+.hof-clip-title svg {
+    color: #ffb900;
+}
+
+.hof-clip-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--color-gray);
+    border: 1px solid rgba(255, 185, 0, 0.3);
+}
+
+.hof-clip-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hof-clip-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: var(--color-text-muted);
+}
+
+.hof-clip-placeholder svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+}
+
+.hof-clip-placeholder span {
+    font-size: 14px;
+}
+
+/* Achievements */
+.hof-achievements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hof-achievement {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(255, 185, 0, 0.1);
+    border: 1px solid rgba(255, 185, 0, 0.3);
+    border-radius: 4px;
+    font-size: 12px;
+    color: #ffb900;
+}
+
+.hof-achievement svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Hall of Fame Responsive */
+@media (max-width: 992px) {
+    .hof-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .hall-of-fame {
+        padding: 80px 0;
+    }
+    
+    .hof-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hof-card-header {
+        padding: 25px 20px 15px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .hof-stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hof-stat:nth-child(2) {
+        border-right: none;
+    }
+    
+    .hof-stat:nth-child(3),
+    .hof-stat:nth-child(4) {
+        border-top: 1px solid rgba(255, 185, 0, 0.1);
+    }
+    
+    .hof-socials {
+        justify-content: center;
+        padding: 15px 20px;
+    }
+    
+    .hof-expanded-inner {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hof-tag {
+        font-size: 11px;
+        letter-spacing: 2px;
+        padding: 8px 15px;
+    }
+    
+    .hof-avatar {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .hof-player-name {
+        font-size: 20px;
+    }
+    
+    .hof-social-link {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+    
+    .hof-social-link span {
+        display: none;
+    }
+}

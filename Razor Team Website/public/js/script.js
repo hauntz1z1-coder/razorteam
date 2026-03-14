@@ -256,6 +256,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// ===== Hall of Fame Card Toggle =====
+function toggleHofCard(cardId) {
+    const card = document.getElementById(cardId);
+    if (card) {
+        card.classList.toggle('expanded');
+        
+        // Update button text
+        const btn = card.querySelector('.hof-expand-btn span');
+        if (btn) {
+            btn.textContent = card.classList.contains('expanded') ? 'Fechar Perfil' : 'Ver Perfil Completo';
+        }
+    }
+}
+
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
